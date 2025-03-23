@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Greeting Card</title>
+    <style>
+        @font-face {
+            font-family: 'Janna';
+            src: url('Janna.ttf');
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            flex-direction: column;
+        }
+        .card-container {
+            position: relative;
+            width: 400px;
+            max-width: 100%;
+        }
+        .card-container img {
+            width: 100%;
+            border-radius: 15px;
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            background: rgba(125, 69, 236, 0.8);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px 0;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .download-button {
+            margin-top: 30px;
+            background: #c49b32;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .download-button:hover {
+            background: #a37d2a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card-container" id="greetingCard">
+    <img src="Ramadan-Greeting.gif" alt="Ramadan Greeting">
+    <div class="overlay-text" id="userNamePlaceholder">Your Name</div>
+</div>
+
+<!-- Download button that calls the Flask endpoint -->
+<button class="download-button" onclick="downloadPersonalizedGif()">Download Personalized GIF</button>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name") || "Guest";
+    const lang = params.get("lang") || "en";
+
+    document.getElementById("userNamePlaceholder").textContent = name;
+
+    if (lang === "ar") {
+        document.body.style.direction = "rtl";
+        document.body.style.fontFamily = "Janna, sans-serif";
+    } else {
+        document.body.style.direction = "ltr";
+        document.body.style.fontFamily = "'Poppins', sans-serif";
+    }
+
+    function downloadPersonalizedGif() {
+        window.location.href = `http://127.0.0.1:5000/generate?name=${encodeURIComponent(name)}&lang=${lang}`;
+    }
+</script>
+
+</body>
+</html>
